@@ -6,10 +6,12 @@ using namespace std;
 int main(){
     
     string elements[]= {"B123", "C234", "A345", "C15", "B177", "G3003", "C235", "B179"};
+      cout << "the elements are. \n";
       
     for (int i = 0; i < sizeof(elements); i++) {
         if (elements[i][0] == 'B') {
-            cout << elements[i] << endl;
+            
+            cout<<elements[i] << endl;
         }
     }
     
