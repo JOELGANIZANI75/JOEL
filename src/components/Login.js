@@ -62,12 +62,16 @@ const LoginForm = () => {
       setMessage('Please fill in all fields');
       return;
     }
-   {/* const userExists = user.some(user => user.username === username || user.email === email);
+
+    // Check if username or email already exists
+    /*
+    const userExists = user.some(user => user.username === username || user.email === email);
 
     if (userExists) {
       setMessage('Username or email already used');
       return;
-    }*/}
+    }
+    */
 
     if (password !== confirmPassword) {
       setMessage('Passwords do not match');
