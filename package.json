@@ -19,8 +19,13 @@
   },
   "scripts": {
     "start": "react-scripts start",
+<<<<<<< HEAD
     "predeploy": "npm run build",
     "deploy": "gh-pages -d build",
+=======
+    "predeploy":"npm run build",
+    "deploy":"gh-pages -d build",
+>>>>>>> 15493fe48aa114c347624a83b74477b79f697fad
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject"
@@ -48,3 +53,4 @@
     "tailwindcss": "^3.4.3"
   }
 }
+
