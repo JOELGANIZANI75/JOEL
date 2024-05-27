@@ -1,4 +1,4 @@
-import React  from 'react';
+import React from 'react';
 import { useNotifications } from './Alert';
 import { useUser } from './user';
 import { Navigate } from 'react-router-dom';
@@ -7,13 +7,11 @@ import com from './com.png';
 const Notification = () => {
   const { notifications } = useNotifications();
   const { currentUser } = useUser();
-  
 
   // Redirect to login page if the user is not logged in
   if (!currentUser) {
     return <Navigate to="/Login" />;
   }
-
 
   return (
     <div className="flex flex-col items-center justify-center bg-gray-100 max-h-screen p-8">
@@ -25,7 +23,6 @@ const Notification = () => {
             <section className='flex-row ml-3'>
               <h2 className="text-2xl font-bold mb-2">{notification.title}</h2>
               <p className="text-gray-700 mb-1">{notification.message}</p>
-              
             </section>
           </article>
         ))
