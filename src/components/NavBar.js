@@ -66,18 +66,7 @@ const Navbar = () => {
         <Link to='/' className='text-white text-2xl font-bold cursor-pointer p-2 m-2' onClick={closeMobileMenu}>
           OCA {/*<i className='fab fa-typo3 ml-2 text-xl' />*/}
         </Link>
-        <div className='flex h-10 items-center'>
-          <input
-            type="text"
-            placeholder="Search for a hostel"
-            value={hostelName}
-            onChange={(e) => setHostelName(e.target.value)}
-            className='border p-0 m-0 rounded'
-          />
-          <button onClick={handleSearch} className='bg-blue-500 h-5 text-white p-0 text-sm m-4 rounded ml-2'>
-            Search
-          </button>
-        </div>
+        
         <div className='lg:hidden' onClick={handleClick} >
           <i className={`${click ? 'fas fa-times' : 'fas fa-bars'} text-white text-2xl cursor-pointer`} />
         </div>
@@ -133,6 +122,18 @@ const Navbar = () => {
             <span className='rounded-full h-3 h-3 bg-red-800'>{notifications.length}</span>
           )}
         </Link>
+        <div className='flex h-10 items-center'>
+          <input
+            type="text"
+            placeholder="Search for a hostel"
+            value={hostelName}
+            onChange={(e) => setHostelName(e.target.value)}
+            className='border p-0 m-0 rounded'
+          />
+          <button onClick={handleSearch} className='bg-blue-500 h-5 text-white p-0 text-sm m-4 rounded ml-2'>
+            Search
+          </button>
+        </div>  
       </div>
     </nav>
   );
