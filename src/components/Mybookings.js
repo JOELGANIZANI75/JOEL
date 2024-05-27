@@ -39,6 +39,8 @@ const MyBookings = () => {
               currentBookings.map((booking) => (
                 <li key={booking.bookingTime} className="border rounded-lg shadow-sm bg-white">
                   <div className="p-4">
+                    {/* Display profile picture */}
+                    <img src={currentUser.profilePicture} alt="Profile" className="w-10 h-10 rounded-full" />
                     <p className="text-gray-700 font-semibold mb-2">Date: {new Date(booking.bookingTime).toLocaleDateString()}</p>
                     <p className="text-gray-700 font-semibold mb-2">Time: {new Date(booking.bookingTime).toLocaleTimeString()}</p>
                     <p className="text-gray-700 font-semibold mb-2">Hostel: {booking.hostelName}</p>
@@ -62,6 +64,8 @@ const MyBookings = () => {
               previousBookings.map((booking) => (
                 <li key={booking.bookingTime} className="border rounded-lg shadow-sm bg-white">
                   <div className="p-4">
+                    {/* Display profile picture */}
+                    <img src={currentUser.profilePicture} alt="Profile" className="w-10 h-10 rounded-full" />
                     <p className="text-gray-700 font-semibold mb-2">Date: {new Date(booking.bookingTime).toLocaleDateString()}</p>
                     <p className="text-gray-700 font-semibold mb-2">Time: {new Date(booking.bookingTime).toLocaleTimeString()}</p>
                     <p className="text-gray-700 font-semibold mb-2">Hostel: {booking.hostelName}</p>
