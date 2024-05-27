@@ -24,46 +24,39 @@ const LoginForm = () => {
   const [showPassword, setShowPassword] = useState(false);
   const navigate = useNavigate();
 
-  const handleLoginInputChange = (e) => {
+  const handleInputChange = (setter) => (e) => {
     const { name, value } = e.target;
-    setLoginDetails({ ...loginDetails, [name]: value });
-  };
-
-  const handleRegisterInputChange = (e) => {
-    const { name, value } = e.target;
-    setRegisterDetails({ ...registerDetails, [name]: value });
+    setter((prevDetails) => ({ ...prevDetails, [name]: value }));
   };
 
   const handleLogin = () => {
-    if (!loginDetails.username || !loginDetails.password) {
+    const { username, password } = loginDetails;
+    if (!username || !password) {
       setMessage('Please enter both username and password');
       return;
     }
 
-    if (loginDetails.password.length < 8) {
+    if (password.length < 8) {
       setMessage('Password is too short. Please enter at least 8 characters.');
       return;
     }
 
-    const user = loginUser(loginDetails.username, loginDetails.password);
+    const user = loginUser(username, password);
 
     if (user) {
       setMessage('Login successful');
       addNotification('Login Successful', 'You have successfully logged in');
-      if (user.accountType === 'Student'){
+      if (user.accountType === 'Student') {
         navigate("/");
-
-      }else if (user.accountType === 'Landlord'){
-      navigate("/LandlordDashboard");
-    }
-   else if (user.accountType === 'Admin'){
-    navigate("/AdminDashboard");
-  }
-    else {
+      } else if (user.accountType === 'Landlord') {
+        navigate("/LandlordDashboard");
+      } else if (user.accountType === 'Admin') {
+        navigate("/AdminDashboard");
+      }
+    } else {
       setMessage('Account does not exist');
     }
-  }
-};
+  };
 
   const handleCreateAccount = () => {
     const { firstName, lastName, username, dateOfBirth, email, password, confirmPassword, accountType, gender } = registerDetails;
@@ -71,16 +64,6 @@ const LoginForm = () => {
       setMessage('Please fill in all fields');
       return;
     }
-
-    // Check if username or email already exists
-    /*
-    const userExists = user.some(user => user.username === username || user.email === email);
-
-    if (userExists) {
-      setMessage('Username or email already used');
-      return;
-    }
-    */
 
     if (password !== confirmPassword) {
       setMessage('Passwords do not match');
@@ -96,6 +79,7 @@ const LoginForm = () => {
     registerUser(newUser);
     setMessage('Account created successfully');
     addNotification('Account Created', 'You have successfully created an account');
+    setIsLogin(true);
   };
 
   const handleResetPassword = () => {
@@ -117,7 +101,7 @@ const LoginForm = () => {
               type="email"
               name="email"
               placeholder="Email"
-              onChange={handleLoginInputChange}
+              onChange={handleInputChange(setLoginDetails)}
               className="appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-t-md focus:outline-none focus:ring-blue-500 focus:border-blue-500 focus:z-10 sm:text-sm"
             />
             <button
@@ -143,7 +127,7 @@ const LoginForm = () => {
               type="text"
               name="username"
               placeholder="Registration Number"
-              onChange={handleLoginInputChange}
+              onChange={handleInputChange(setLoginDetails)}
               className="appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-t-md focus:outline-none focus:ring-blue-500 focus:border-blue-500 focus:z-10 sm:text-sm"
             />
             <div className="relative">
@@ -151,7 +135,7 @@ const LoginForm = () => {
                 type={showPassword ? "text" : "password"}
                 name="password"
                 placeholder="Password"
-                onChange={handleLoginInputChange}
+                onChange={handleInputChange(setLoginDetails)}
                 className="appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-b-md focus:outline-none focus:ring-blue-500 focus:border-blue-500 focus:z-10 sm:text-sm"
               />
               <button
@@ -184,9 +168,7 @@ const LoginForm = () => {
                 onClick={() => setIsLogin(false)}
                 className="mt-3 font-medium text-indigo-600 hover:text-indigo-500"
               >
-                
                 Create Account
-               
               </button>
             </div>
           </form>
@@ -195,37 +177,36 @@ const LoginForm = () => {
             <input
               type="text"
               name="username"
-              placeholder="username"
-              onChange={handleRegisterInputChange}
+              placeholder="Username"
+              onChange={handleInputChange(setRegisterDetails)}
               className="appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-t-md focus:outline-none focus:ring-blue-500 focus:border-blue-500 focus:z-10 sm:text-sm"
             />
             <input
               type="text"
               name="firstName"
               placeholder="First Name"
-              onChange={handleRegisterInputChange}
+              onChange={handleInputChange(setRegisterDetails)}
               className="appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-t-md focus:outline-none focus:ring-blue-500 focus:border-blue-500 focus:z-10 sm:text-sm"
             />
             <input
               type="text"
               name="lastName"
               placeholder="Last Name"
-              onChange={handleRegisterInputChange}
+              onChange={handleInputChange(setRegisterDetails)}
               className="appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-t-md focus:outline-none focus:ring-blue-500 focus:border-blue-500 focus:z-10 sm:text-sm"
             />
-            
             <input
               type="date"
               name="dateOfBirth"
-              placeholder="dateOfBirth"
-              onChange={handleRegisterInputChange}
+              placeholder="Date of Birth"
+              onChange={handleInputChange(setRegisterDetails)}
               className="appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-t-md focus:outline-none focus:ring-blue-500 focus:border-blue-500 focus:z-10 sm:text-sm"
             />
             <input
               type="email"
               name="email"
               placeholder="Email"
-              onChange={handleRegisterInputChange}
+              onChange={handleInputChange(setRegisterDetails)}
               className="appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-t-md focus:outline-none focus:ring-blue-500 focus:border-blue-500 focus:z-10 sm:text-sm"
             />
             <div className="relative">
@@ -233,7 +214,7 @@ const LoginForm = () => {
                 type={showPassword ? "text" : "password"}
                 name="password"
                 placeholder="Password"
-                onChange={handleRegisterInputChange}
+                onChange={handleInputChange(setRegisterDetails)}
                 className="appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-b-md focus:outline-none focus:ring-blue-500 focus:border-blue-500 focus:z-10 sm:text-sm"
               />
               <button
@@ -248,52 +229,62 @@ const LoginForm = () => {
               type="password"
               name="confirmPassword"
               placeholder="Confirm Password"
-              onChange={handleRegisterInputChange}
+              onChange={handleInputChange(setRegisterDetails)}
               className="appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-b-md focus:outline-none focus:ring-blue-500 focus:border-blue-500 focus:z-10 sm:text-sm"
             />
-            <div className="flex items-center">
-              <input
-                type="radio"
-                name="accountType"
-                value="student"
-                onChange={handleRegisterInputChange}
-                className="form-radio"
-              />
-              <label className="ml-2">Student</label>
-              <input
-                type="radio"
-                name="accountType"
-                value="Landlord"
-                onChange={handleRegisterInputChange}
-                className="form-radio ml-4"
-              />
-              <label className="ml-2">Landlord</label>
-              <input
-                type="radio"
-                name="accountType"
-                value="Admin"
-                onChange={handleRegisterInputChange}
-                className="form-radio ml-4"
-              />
-              <label className="ml-2">Admin</label>
+            <div className="flex items-center space-x-4">
+              <div className="flex items-center">
+                <input
+                  type="radio"
+                  name="accountType"
+                  value="Student"
+                  onChange={handleInputChange(setRegisterDetails)}
+                  className="form-radio"
+                />
+                <label className="ml-2">Student</label>
+              </div>
+              <div className="flex items-center">
+                <input
+                  type="radio"
+                  name="accountType"
+                  value="Landlord"
+                  onChange={handleInputChange(setRegisterDetails)}
+                  className="form-radio"
+                />
+                <label className="ml-2">Landlord</label>
+              </div>
+              <div className="flex items-center">
+                <input
+                  type="radio"
+                  name="accountType"
+                  value="Admin"
+                  onChange={handleInputChange(setRegisterDetails)}
+                  className="form-radio"
+                />
+                <label className="ml-2">Admin</label>
+              </div>
             </div>
-            <div className="flex items-center">
-              <input
-                type="radio"
-                name="gender"
-                value="male"
-                onChange={handleRegisterInputChange}
-                className="form-radio"
-              />
-              <label className="ml-2">Male</label>
-              <input
-                type="radio"
-                name="gender"
-                value="female"
-                onChange={handleRegisterInputChange}
-                className="form-radio ml-4"
-              />
-              <label className="ml-2">Female</label>
+            <div className="flex items-center space-x-4">
+              <div className="flex items-center">
+                <input
+                  type="radio"
+                  name="gender"
+                  value="male"
+                  onChange={handleInputChange(setRegisterDetails)}
+                  className="form-radio"
+                />
+                <label className="ml-2">Male</label>
+              </div>
+              <div className="flex items-center">
+                <input
+                  type="radio"
+                  name="gender"
+                  value="female"
+                  onChange={handleInputChange(setRegisterDetails)}
+                  className="form-radio"
+                />
+                <label className="ml-2">Female</label>
+              </div>
             </div>
             <button
               type="button"
@@ -317,7 +308,6 @@ const LoginForm = () => {
       </div>
     </div>
   );
-
 };
 
 export default LoginForm;
