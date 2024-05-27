@@ -57,9 +57,6 @@ const Navbar = () => {
     return null; // Return null to hide the navbar on the landlord dashboard
   }
  
-  
-  
-  
   return (
     <nav className='bg-gradient-to-r from-gray-900 to-gray-800 h-15 flex flex-row justify-center items-center text-lg sticky top-0 z-50'>
       <div className='flex justify-between items-center h-20 max-w-screen-xl mx-auto w-full px-0'>
@@ -122,15 +119,15 @@ const Navbar = () => {
             <span className='rounded-full h-3 h-3 bg-red-800'>{notifications.length}</span>
           )}
         </Link>
-        <div className='flex h-10 items-center'>
+        <div className='flex items-center'>
           <input
             type="text"
             placeholder="Search for a hostel"
             value={hostelName}
             onChange={(e) => setHostelName(e.target.value)}
-            className='border p-0 m-0 rounded'
+            className='border rounded-l-md p-2 w-40 h-12'
           />
-          <button onClick={handleSearch} className='bg-blue-500 h-5 text-white p-0 text-sm m-4 rounded ml-2'>
+          <button onClick={handleSearch} className='bg-blue-500 text-white text-sm p-2 rounded-r-md h-12'>
             Search
           </button>
         </div>  
