@@ -21,7 +21,7 @@ const BookingPage = () => {
     // Load bookings from local storage for the current user when component mounts
     const storedBookings = JSON.parse(localStorage.getItem(`bookings_${currentUser.id}`)) || [];
     setBookings(storedBookings);
-  }, [currentUser.id]);
+  }, [currentUser]);
 
   const handleChange = (e) => {
     setFormData({
@@ -61,10 +61,7 @@ const BookingPage = () => {
     localStorage.setItem(`bookings_${currentUser.id}`, JSON.stringify(updatedBookings));
 
     // Generate notification
-    addNotification({
-      title: 'Booking Confirmed',
-      message: `You have successfully booked a room in ${hostel.name}.`
-    });
+    addNotification('Booking Confirmed', `You have successfully booked a room in ${hostel.name}.`);
 
     // Reset form data
     setFormData({
@@ -139,7 +136,6 @@ const BookingPage = () => {
         </button>
       </form>
     </div>
-   
   );
 };
 
