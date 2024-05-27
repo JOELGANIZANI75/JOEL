@@ -46,9 +46,9 @@ const LoginForm = () => {
     if (user) {
       setMessage('Login successful');
       addNotification('Login Successful', 'You have successfully logged in');
-      if (user.accountType === 'Student') {
+      {/*if (user.accountType === 'Student') {
         navigate("/");
-      } else if (user.accountType === 'Landlord') {
+      } else*/} if (user.accountType === 'Landlord') {
         navigate("/LandlordDashboard");
       } else if (user.accountType === 'Admin') {
         navigate("/AdminDashboard");
