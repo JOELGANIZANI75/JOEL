@@ -8,9 +8,7 @@ export const useNotifications = () => useContext(NotificationsContext);
 
 // Provider component to wrap around the app
 export const NotificationsProvider = ({ children }) => {
-  const [notifications, setNotifications] = useState([
-   
-  ]);
+  const [notifications, setNotifications] = useState([]);
 
   const addNotification = (title, message) => {
     const newNotification = {
