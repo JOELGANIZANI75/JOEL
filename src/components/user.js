@@ -12,11 +12,9 @@ export const UserProvider = ({ children }) => {
   const INACTIVITY_TIMEOUT = 7 * 60 * 60 * 1000; // 7 hours in milliseconds
 
   useEffect(() => {
-    // Fetch user data from local storage when component mounts
     const storedUsers = JSON.parse(localStorage.getItem('users')) || [];
     setUsers(storedUsers);
 
-    // Check if a user session exists
     const storedUser = JSON.parse(localStorage.getItem('currentUser'));
     const lastActiveTime = localStorage.getItem('lastActiveTime');
     const currentTime = new Date().getTime();
@@ -30,7 +28,6 @@ export const UserProvider = ({ children }) => {
   }, [INACTIVITY_TIMEOUT]);
 
   useEffect(() => {
-    // Update last active time in local storage on user interaction
     const handleUserActivity = () => {
       localStorage.setItem('lastActiveTime', new Date().getTime().toString());
     };
@@ -73,10 +70,7 @@ export const UserProvider = ({ children }) => {
     const updatedUsers = users.filter(user => user.username !== userToDelete.username);
     setUsers(updatedUsers);
     localStorage.setItem('users', JSON.stringify(updatedUsers));
-
-    // Remove the user's booking history from local storage
     localStorage.removeItem(`bookings_${userToDelete.id}`);
-
     setCurrentUser(null);
     localStorage.removeItem('currentUser');
     localStorage.removeItem('lastActiveTime');
