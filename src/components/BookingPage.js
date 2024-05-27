@@ -42,8 +42,17 @@ const BookingPage = () => {
     // Check if the user has already booked a room
     const hasBooked = bookings.some(booking => booking.userId === currentUser.id);
     if (hasBooked) {
-      alert('You have already booked a room.');
-      return;
+      // Check if the last booking was made more than four months ago
+      const lastBooking = bookings.find(booking => booking.userId === currentUser.id);
+      const lastBookingDate = new Date(lastBooking.bookingTime);
+      const fourMonthsAgo = new Date();
+      fourMonthsAgo.setMonth(fourMonthsAgo.getMonth() - 4);
+
+      if (lastBookingDate > fourMonthsAgo) {
+        // If the last booking was made less than four months ago, prevent booking
+        alert('You have already booked a room within the last four months. You can book again after four months.');
+        return;
+      }
     }
 
     // Add booking to the bookings array
