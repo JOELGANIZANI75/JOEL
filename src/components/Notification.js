@@ -9,9 +9,9 @@ const Notification = () => {
   const { currentUser } = useUser();
 
   // Redirect to login page if the user is not logged in
-  {/* if (!currentUser) {
+   if (!currentUser) {
     return <Navigate to="/Login" />;
-  }*/}
+  }
 
   return (
     <div className="flex flex-col items-center justify-center bg-gray-100 max-h-screen p-8">
