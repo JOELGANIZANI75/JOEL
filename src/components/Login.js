@@ -126,7 +126,7 @@ const LoginForm = () => {
             <input
               type="text"
               name="username"
-              placeholder="Registration Number"
+              placeholder="username"
               onChange={handleInputChange(setLoginDetails)}
               className="appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-t-md focus:outline-none focus:ring-blue-500 focus:border-blue-500 focus:z-10 sm:text-sm"
             />
@@ -196,7 +196,7 @@ const LoginForm = () => {
               className="appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-t-md focus:outline-none focus:ring-blue-500 focus:border-blue-500 focus:z-10 sm:text-sm"
             />
             <input
-              type="date"
+              type="dateofbirth"
               name="dateOfBirth"
               placeholder="Date of Birth"
               onChange={handleInputChange(setRegisterDetails)}
