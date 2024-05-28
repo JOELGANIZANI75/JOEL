@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { useUser } from './user'; // Import useUser hook
+import { useUser } from './user';
 
 const MyBookings = () => {
   const { currentUser } = useUser();
@@ -7,19 +7,10 @@ const MyBookings = () => {
   const currentDate = new Date();
 
   useEffect(() => {
-    const fetchBookings = async () => {
-      try {
-        if (currentUser && currentUser.id) {
-          // Fetch bookings from local storage for the current user
-          const storedBookings = JSON.parse(localStorage.getItem(`bookings_${currentUser.id}`)) || [];
-          setBookings(storedBookings);
-        }
-      } catch (error) {
-        console.error('Failed to fetch bookings:', error);
-      }
-    };
-
-    fetchBookings();
+    if (currentUser && currentUser.id) {
+      const storedBookings = JSON.parse(localStorage.getItem(`bookings_${currentUser.id}`)) || [];
+      setBookings(storedBookings);
+    }
   }, [currentUser]);
 
   const isPastDate = (date) => new Date(date) < currentDate;
@@ -31,16 +22,14 @@ const MyBookings = () => {
     <div className="bg-gray-200 min-h-screen font-sans">
       <div className="container mx-auto px-4 py-8">
         <h2 className="text-2xl font-bold mb-8">My Booking History</h2>
-
         <div className="mb-8">
           <h3 className="text-lg font-semibold mb-4">Current Bookings</h3>
           <ul className="space-y-4">
             {currentBookings.length > 0 ? (
               currentBookings.map((booking) => (
-                <li key={booking.bookingTime} className="border rounded-lg shadow-sm bg-white">
-                  <div className="p-4">
-                    {/* Display profile picture */}
-                    <img src={currentUser.profilePicture} alt="Profile" className="w-10 h-10 rounded-full" />
+                <li key={booking.bookingTime} className="border rounded-lg shadow-sm bg-white p-4 flex items-center space-x-4">
+                  <img src={currentUser.profilePicture} alt="Profile" className="w-10 h-10 rounded-full" />
+                  <div>
                     <p className="text-gray-700 font-semibold mb-2">Date: {new Date(booking.bookingTime).toLocaleDateString()}</p>
                     <p className="text-gray-700 font-semibold mb-2">Time: {new Date(booking.bookingTime).toLocaleTimeString()}</p>
                     <p className="text-gray-700 font-semibold mb-2">Hostel: {booking.hostelName}</p>
@@ -49,10 +38,8 @@ const MyBookings = () => {
                 </li>
               ))
             ) : (
-              <li className="border rounded-lg shadow-sm bg-white">
-                <div className="p-4">
-                  <p className="text-gray-700">No current bookings.</p>
-                </div>
+              <li className="border rounded-lg shadow-sm bg-white p-4">
+                <p className="text-gray-700">No current bookings.</p>
               </li>
             )}
           </ul>
@@ -62,10 +49,9 @@ const MyBookings = () => {
           <ul className="space-y-4">
             {previousBookings.length > 0 ? (
               previousBookings.map((booking) => (
-                <li key={booking.bookingTime} className="border rounded-lg shadow-sm bg-white">
-                  <div className="p-4">
-                    {/* Display profile picture */}
-                    <img src={currentUser.profilePicture} alt="Profile" className="w-10 h-10 rounded-full" />
+                <li key={booking.bookingTime} className="border rounded-lg shadow-sm bg-white p-4 flex items-center space-x-4">
+                  <img src={currentUser.profilePicture} alt="Profile" className="w-10 h-10 rounded-full" />
+                  <div>
                     <p className="text-gray-700 font-semibold mb-2">Date: {new Date(booking.bookingTime).toLocaleDateString()}</p>
                     <p className="text-gray-700 font-semibold mb-2">Time: {new Date(booking.bookingTime).toLocaleTimeString()}</p>
                     <p className="text-gray-700 font-semibold mb-2">Hostel: {booking.hostelName}</p>
@@ -74,10 +60,8 @@ const MyBookings = () => {
                 </li>
               ))
             ) : (
-              <li className="border rounded-lg shadow-sm bg-white">
-                <div className="p-4">
-                  <p className="text-gray-700">No previous bookings.</p>
-                </div>
+              <li className="border rounded-lg shadow-sm bg-white p-4">
+                <p className="text-gray-700">No previous bookings.</p>
               </li>
             )}
           </ul>
