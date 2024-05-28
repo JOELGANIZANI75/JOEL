@@ -73,7 +73,7 @@ const BookingPage = () => {
       phone: '',
     });
 
-    navigate('/Mybookings');
+    
   };
 
   return (
