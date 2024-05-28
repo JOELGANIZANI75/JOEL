@@ -9,7 +9,7 @@ export const useUser = () => {
 export const UserProvider = ({ children }) => {
   const [currentUser, setCurrentUser] = useState(null);
   const [users, setUsers] = useState([]);
-  const INACTIVITY_TIMEOUT = 7 * 60 * 60 * 1000; // 7 hours in milliseconds
+  const INACTIVITY_TIMEOUT = 7 * 60 * 60 * 1000;
 
   useEffect(() => {
     const storedUsers = JSON.parse(localStorage.getItem('users')) || [];
@@ -25,7 +25,7 @@ export const UserProvider = ({ children }) => {
       localStorage.removeItem('currentUser');
       localStorage.removeItem('lastActiveTime');
     }
-  }, [INACTIVITY_TIMEOUT]);
+  }, []);
 
   useEffect(() => {
     const handleUserActivity = () => {
