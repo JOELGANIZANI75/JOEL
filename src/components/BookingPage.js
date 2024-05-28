@@ -1,10 +1,11 @@
 import React, { useState, useEffect } from 'react';
-import { useLocation } from 'react-router-dom';
-import { useNotifications } from './Alert'; // Import useNotifications hook
-import { useUser } from './user'; // Import useUser hook
+import { useLocation, useNavigate } from 'react-router-dom';
+import { useNotifications } from './Alert';
+import { useUser } from './user';
 
 const BookingPage = () => {
   const location = useLocation();
+  const navigate = useNavigate();
   const { hostel } = location.state;
   const { currentUser } = useUser();
   const { addNotification } = useNotifications();
@@ -15,12 +16,14 @@ const BookingPage = () => {
     email: '',
     phone: '',
   });
+
   const [bookings, setBookings] = useState([]);
 
   useEffect(() => {
-    // Load bookings from local storage for the current user when component mounts
-    const storedBookings = JSON.parse(localStorage.getItem(`bookings_${currentUser.id}`)) || [];
-    setBookings(storedBookings);
+    if (currentUser && currentUser.id) {
+      const storedBookings = JSON.parse(localStorage.getItem(`bookings_${currentUser.id}`)) || [];
+      setBookings(storedBookings);
+    }
   }, [currentUser]);
 
   const handleChange = (e) => {
@@ -31,31 +34,26 @@ const BookingPage = () => {
   };
 
   const handleSubmit = (e) => {
-    e.preventDefault(); // Prevent default form submission behavior
+    e.preventDefault();
 
-    // Input validation
     if (!formData.name || !formData.RoomNumber || !formData.email || !formData.phone) {
       alert('Please fill in all fields.');
       return;
     }
 
-    // Check if the user has already booked a room
     const hasBooked = bookings.some(booking => booking.userId === currentUser.id);
     if (hasBooked) {
-      // Check if the last booking was made more than four months ago
       const lastBooking = bookings.find(booking => booking.userId === currentUser.id);
       const lastBookingDate = new Date(lastBooking.bookingTime);
       const fourMonthsAgo = new Date();
       fourMonthsAgo.setMonth(fourMonthsAgo.getMonth() - 4);
 
       if (lastBookingDate > fourMonthsAgo) {
-        // If the last booking was made less than four months ago, prevent booking
         alert('You have already booked a room within the last four months. You can book again after four months.');
         return;
       }
     }
 
-    // Add booking to the bookings array
     const newBooking = {
       ...formData,
       hostelName: hostel.name,
@@ -65,28 +63,23 @@ const BookingPage = () => {
 
     const updatedBookings = [...bookings, newBooking];
     setBookings(updatedBookings);
-
-    // Save bookings to local storage for the current user
     localStorage.setItem(`bookings_${currentUser.id}`, JSON.stringify(updatedBookings));
-
-    // Generate notification
     addNotification('Booking Confirmed', `You have successfully booked a room in ${hostel.name}.`);
 
-    // Reset form data
     setFormData({
       name: '',
       RoomNumber: '',
       email: '',
       phone: '',
     });
+
+    navigate('/Mybookings');
   };
 
   return (
     <div className="container mx-auto py-8">
-      {/* Sliding images of the hostel */}
       <h1 className="text-2xl font-bold mb-4">Booking for {hostel.name}</h1>
       <form onSubmit={handleSubmit} className="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4">
-        {/* Your booking form inputs */}
         <div className="mb-4">
           <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="name">
             Name
@@ -139,7 +132,6 @@ const BookingPage = () => {
             required
           />
         </div>
-        {/* Other form inputs */}
         <button type="submit" className="bg-green-500 hover:bg-green-600 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline">
           Confirm Booking
         </button>
