@@ -9,6 +9,7 @@ const MyBookings = () => {
   useEffect(() => {
     if (currentUser && currentUser.id) {
       const storedBookings = JSON.parse(localStorage.getItem(`bookings_${currentUser.id}`)) || [];
+      console.log('Fetched bookings from local storage:', storedBookings);
       setBookings(storedBookings);
     }
   }, [currentUser]);
