@@ -8,8 +8,10 @@ const AdminDashboard = () => {
 
   // Count the number of admin accounts
   useEffect(() => {
-    const adminAccounts = users.filter(user => user.accountType === 'Admin');
-    setAdminCount(adminAccounts.length);
+    if (users && users.length > 0) {
+      const adminAccounts = users.filter(user => user.accountType === 'Admin');
+      setAdminCount(adminAccounts.length);
+    }
   }, [users]);
 
   const handleDeleteUser = (userToDelete) => {
@@ -32,9 +34,9 @@ const AdminDashboard = () => {
         <h1 className="text-3xl font-semibold mb-4">Admin Dashboard</h1>
 
         <h2 className="text-2xl font-semibold mb-4">Users</h2>
-        <div className="space-y-4">
-          {users.length > 0 ? (
-            users.map(user => (
+        {users && users.length > 0 ? (
+          <div className="space-y-4">
+            {users.map(user => (
               <div key={user.id} className="p-4 border rounded-md bg-gray-100">
                 <p><strong>Username:</strong> {user.username}</p>
                 <p><strong>Email:</strong> {user.email}</p>
@@ -45,11 +47,11 @@ const AdminDashboard = () => {
                   Delete User
                 </button>
               </div>
-            ))
-          ) : (
-            <p>No users found.</p>
-          )}
-        </div>
+            ))}
+          </div>
+        ) : (
+          <p>No users found.</p>
+        )}
 
         <div className="mt-8">
           <h2 className="text-2xl font-semibold mb-2">Admin Accounts</h2>
