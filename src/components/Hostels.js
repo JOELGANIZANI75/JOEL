@@ -1,8 +1,9 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import Hostel from './Hostel';
 import SortDropdown from './SortDropdown';
 import FilterDropdown from './FilterDropdown';
 import { useUser } from './user'; // Import useUser hook
+import { HostelContext } from './hostelContext'; // Import HostelContext
 //import Navbar from  "/.NavBar";
 const Hostels = () => {
   const [sortCriteria, setSortCriteria] = useState('name');
@@ -19,7 +20,8 @@ const Hostels = () => {
     setFilterCriteria(criteria);
   };
 
-  const hostels = [
+  // Dummy hostels data
+  const initialHostels = [
     {
       name: 'Matiya',
       rent: 60000,
@@ -122,6 +124,22 @@ const Hostels = () => {
     }
   ];
 
+  // Load hostels from context
+  const [hostels, setHostels] = useState(initialHostels);
+
+  // Context to manage hostels
+  const addHostel = (newHostel) => {
+    setHostels([...hostels, newHostel]);
+  };
+
+  useEffect(() => {
+    // Filter hostels by the current user's landlord name
+    if (currentUser) {
+      const userHostels = initialHostels.filter(hostel => hostel.landlord.split(',')[0] === currentUser.name);
+      setHostels([...hostels, ...userHostels]);
+    }
+  }, [currentUser]);
+
   // Sort hostels based on selected criteria
   hostels.sort((a, b) => {
     if (sortCriteria === 'name') {
@@ -186,6 +204,8 @@ const Hostels = () => {
             </button>
             <h2 className="text-xl font-bold mb-4">{selectedHostel.name}</h2>
             <img src={selectedHostel.image} alt={selectedHostel.name} className="w-full h-64 object-cover mb-4" />
+           
+
             <p>Rent: {selectedHostel.rent}</p>
             <p>Distance: {selectedHostel.distance} km</p>
             <p>Rooms Available: {selectedHostel.roomsAvailable}</p>
