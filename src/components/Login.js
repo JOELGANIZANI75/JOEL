@@ -51,7 +51,7 @@ const LoginForm = () => {
       } else if (user.accountType === 'Landlord') {
         navigate("/LandlordDashboard");
       } else if (user.accountType === 'Admin') {
-        navigate("/AdminDashboard");
+        navigate("/Admin");
       }
     } else {
       setMessage('Account does not exist');
