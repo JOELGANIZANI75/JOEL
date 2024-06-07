@@ -1,31 +1,15 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom'; // Import useNavigate hook
 import AddHostelForm from './AddHostelForm.js'; // Import the AddHostelForm component
-import { useDataStore } from './datastore.js'; // Import the data store
+import { useHostels } from './HostelContext'; // Import the useHostels hook
 
 const LandlordDashboard = () => {
   const [showAddHostelForm, setShowAddHostelForm] = useState(false);
   const [showProfileDropdown, setShowProfileDropdown] = useState(false);
   const navigate = useNavigate(); // Initialize the useNavigate hook
-  // Importing the arrays and their setters from the data store
-  const {
-    hostelNames, setHostelNames,
-    roomTypes, setRoomTypes,
-    amountsOfRooms, setAmountsOfRooms,
-    amounts, setAmounts,
-    distances, setDistances,
-    imagesList, setImagesList,
-  } = useDataStore();
 
-  const handleDeleteHostel = (index) => {
-    // Function to delete a hostel by index
-    setHostelNames(hostelNames.filter((_, i) => i !== index));
-    setRoomTypes(roomTypes.filter((_, i) => i !== index));
-    setAmountsOfRooms(amountsOfRooms.filter((_, i) => i !== index));
-    setAmounts(amounts.filter((_, i) => i !== index));
-    setDistances(distances.filter((_, i) => i !== index));
-    setImagesList(imagesList.filter((_, i) => i !== index));
-  };
+  // Importing the hostels context and methods
+  const { hostels, addHostel, deleteHostel } = useHostels();
 
   const redirectToProfile = () => {
     navigate('/profile'); // Redirect to the profile page
@@ -60,16 +44,16 @@ const LandlordDashboard = () => {
 
         <h2 className="text-2xl font-semibold mb-4">Your Hostels</h2>
         <div className="space-y-4">
-          {hostelNames.length > 0 ? (
-            hostelNames.map((hostelName, index) => (
+          {hostels.length > 0 ? (
+            hostels.map((hostel, index) => (
               <div key={index} className="p-4 border rounded-md bg-gray-100">
-                <p><strong>Hostel Name:</strong> {hostelName}</p>
-                <p><strong>Room Type:</strong> {roomTypes[index]}</p>
-                <p><strong>Amount of Rooms:</strong> {amountsOfRooms[index]}</p>
-                <p><strong>Amount (MWK):</strong> {amounts[index]}</p>
-                <p><strong>Directions to Campus:</strong> {distances[index]}</p>
+                <p><strong>Hostel Name:</strong> {hostel.name}</p>
+                <p><strong>Room Type:</strong> {hostel.roomType}</p>
+                <p><strong>Amount of Rooms:</strong> {hostel.amountOfRooms}</p>
+                <p><strong>Amount (MWK):</strong> {hostel.amount}</p>
+                <p><strong>Directions to Campus:</strong> {hostel.distance}</p>
                 <div className="mt-2 grid grid-cols-3 gap-2">
-                  {imagesList[index] && imagesList[index].map((image, imgIndex) => (
+                  {hostel.images && hostel.images.map((image, imgIndex) => (
                     <img
                       key={imgIndex}
                       src={URL.createObjectURL(image)}
@@ -79,7 +63,7 @@ const LandlordDashboard = () => {
                   ))}
                 </div>
                 <button
-                  onClick={() => handleDeleteHostel(index)}
+                  onClick={() => deleteHostel(index)}
                   className="mt-4 bg-red-500 text-white py-2 px-4 rounded-md hover:bg-red-600 transition duration-300"
                 >
                   Delete Hostel
