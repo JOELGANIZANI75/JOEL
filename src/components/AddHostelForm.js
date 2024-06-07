@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
-import { useDataStore } from './datastore.js'; // Adjust the path as needed
 import Modal from './modal.js'; // Import the modal component
+import { useHostels } from './HostelContext'; // Import the useHostels hook
 
 const AddHostelForm = () => {
   // State variables to store form data
@@ -15,15 +15,8 @@ const AddHostelForm = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [hostelDetails, setHostelDetails] = useState({});
 
-  // Importing the arrays and their setters from the data store
-  const {
-    hostelNames, setHostelNames,
-    roomTypes, setRoomTypes,
-    amountsOfRooms, setAmountsOfRooms,
-    amounts, setAmounts,
-    distances, setDistances,
-    imagesList, setImagesList,
-  } = useDataStore();
+  // Importing the hostels context and methods
+  const { addHostel } = useHostels();
 
   // Function to handle form submission
   const handleSubmit = (e) => {
@@ -38,13 +31,8 @@ const AddHostelForm = () => {
       images,
     };
 
-    // Store the new values in the arrays
-    setHostelNames([...hostelNames, name]);
-    setRoomTypes([...roomTypes, roomType]);
-    setAmountsOfRooms([...amountsOfRooms, amountofrooms]);
-    setAmounts([...amounts, amount]);
-    setDistances([...distances, distance]);
-    setImagesList([...imagesList, images]);
+    // Store the new hostel in the context
+    addHostel(newHostelDetails);
 
     // Save the details for the modal and open the modal
     setHostelDetails(newHostelDetails);
@@ -170,34 +158,9 @@ const AddHostelForm = () => {
           hostelDetails={hostelDetails}
         />
 
-        {/* Displaying the saved data */}
-        <div className="mt-8">
-          <h3 className="text-xl font-semibold mb-4">Saved Hostel Descriptions</h3>
-          <div className="space-y-4">
-            {hostelNames.map((hostelName, index) => (
-              <div key={index} className="p-4 border rounded-md bg-gray-100">
-              <p><strong>Hostel Name:</strong> {hostelName}</p>
-              <p><strong>Room Type:</strong> {roomTypes[index]}</p>
-              <p><strong>Amount of Rooms:</strong> {amountsOfRooms[index]}</p>
-              <p><strong>Amount (MWK):</strong> {amounts[index]}</p>
-              <p><strong>Directions to Campus:</strong> {distances[index]}</p>
-              <div className="mt-2 grid grid-cols-3 gap-2">
-                {imagesList[index] && imagesList[index].map((image, imgIndex) => (
-                  <img
-                    key={imgIndex}
-                    src={URL.createObjectURL(image)}
-                    alt={`Preview ${imgIndex + 1}`}
-                    className="w-full h-24 object-cover"
-                  />
-                ))}
-              </div>
-            </div>
-          ))}
-        </div>
       </div>
     </div>
-  </div>
-);
+  );
 };
 
 export default AddHostelForm;
