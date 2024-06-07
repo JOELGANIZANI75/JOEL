@@ -5,27 +5,41 @@ const HostelContext = createContext();
 
 // Create the provider component
 export const HostelProvider = ({ children }) => {
-  const [hostels, setHostels] = useState(() => {
-    // Load hostels from local storage if available
-    const savedHostels = localStorage.getItem('hostels');
-    return savedHostels ? JSON.parse(savedHostels) : [];
-  });
+  const [hostels, setHostels] = useState([]);
+  const [loading, setLoading] = useState(false);
 
   useEffect(() => {
-    // Save hostels to local storage whenever the hostels state changes
+    const fetchHostels = async () => {
+      setLoading(true);
+      const savedHostels = localStorage.getItem('hostels');
+      const hostelsData = savedHostels ? JSON.parse(savedHostels) : [];
+      // Fetch data from API or database here if needed
+      setHostels(hostelsData);
+      setLoading(false);
+    };
+    fetchHostels();
+  }, []);
+
+  useEffect(() => {
     localStorage.setItem('hostels', JSON.stringify(hostels));
   }, [hostels]);
 
   const addHostel = (hostel) => {
-    setHostels([...hostels, hostel]);
+    const existingHostel = hostels.find(h => h.name === hostel.name);
+    if (!existingHostel) {
+      setHostels([...hostels, hostel]);
+    }
   };
 
   const deleteHostel = (index) => {
-    setHostels(hostels.filter((_, i) => i !== index));
+    const confirmDelete = window.confirm('Are you sure you want to delete this hostel?');
+    if (confirmDelete) {
+      setHostels(hostels.filter((_, i) => i !== index));
+    }
   };
 
   return (
-    <HostelContext.Provider value={{ hostels, addHostel, deleteHostel }}>
+    <HostelContext.Provider value={{ hostels, loading, addHostel, deleteHostel }}>
       {children}
     </HostelContext.Provider>
   );
