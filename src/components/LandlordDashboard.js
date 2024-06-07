@@ -1,25 +1,30 @@
 import React, { useState } from 'react';
-import { useNavigate } from 'react-router-dom'; // Import useNavigate hook
-import AddHostelForm from './AddHostelForm.js'; // Import the AddHostelForm component
-import { useHostels } from './HostelContext'; // Import the useHostels hook
+import { useNavigate } from 'react-router-dom';
+import AddHostelForm from './AddHostelForm.js';
+import { useHostels } from './HostelContext';
 
 const LandlordDashboard = () => {
   const [showAddHostelForm, setShowAddHostelForm] = useState(false);
   const [showProfileDropdown, setShowProfileDropdown] = useState(false);
-  const navigate = useNavigate(); // Initialize the useNavigate hook
-
-  // Importing the hostels context and methods
+  const navigate = useNavigate();
   const { hostels, addHostel, deleteHostel } = useHostels();
+  const [loading, setLoading] = useState(false);
 
   const redirectToProfile = () => {
-    navigate('/profile'); // Redirect to the profile page
-    setShowProfileDropdown(false); // Close the profile dropdown after redirection
+    navigate('/profile');
+    setShowProfileDropdown(false);
   };
 
   const handleLogout = () => {
-    // Function to handle logout
     // Perform logout logic here...
-    navigate('/'); // Redirect to the home page
+    navigate('/');
+  };
+
+  const handleDeleteHostel = (index) => {
+    const confirmDelete = window.confirm('Are you sure you want to delete this hostel?');
+    if (confirmDelete) {
+      deleteHostel(index);
+    }
   };
 
   return (
@@ -43,10 +48,13 @@ const LandlordDashboard = () => {
         )}
 
         <h2 className="text-2xl font-semibold mb-4">Your Hostels</h2>
-        <div className="space-y-4">
-          {hostels.length > 0 ? (
-            hostels.map((hostel, index) => (
-              <div key={index} className="p-4 border rounded-md bg-gray-100">
+        {loading ? (
+          <p>Loading hostels...</p>
+        ) : (
+          <div className="space-y-4">
+            {hostels.length > 0 ? (
+              hostels.map((hostel, index) => (
+                <div key={index} className="p-4 border rounded-md bg-gray-100">
                 <p><strong>Hostel Name:</strong> {hostel.name}</p>
                 <p><strong>Room Type:</strong> {hostel.roomType}</p>
                 <p><strong>Amount of Rooms:</strong> {hostel.amountOfRooms}</p>
@@ -63,22 +71,22 @@ const LandlordDashboard = () => {
                   ))}
                 </div>
                 <button
-                  onClick={() => deleteHostel(index)}
-                  className="mt-4 bg-red-500 text-white py-2 px-4 rounded-md hover:bg-red-600 transition duration-300"
-                >
-                  Delete Hostel
-                </button>
-              </div>
-            ))
-          ) : (
-            <p>No hostels added yet.</p>
-          )}
-        </div>
+                    onClick={() => handleDeleteHostel(index)}
+                    className="mt-4 bg-red-500 text-white py-2 px-4 rounded-md hover:bg-red-600 transition duration-300"
+                  >
+                    Delete Hostel
+                  </button>
+                </div>
+              ))
+            ) : (
+              <p>No hostels added yet.</p>
+            )}
+          </div>
+        )}
 
-        
         <div className="mt-8 relative">
           <button
-            onClick={redirectToProfile} // Call redirectToProfile function on button click
+            onClick={redirectToProfile}
             className="bg-gray-500 text-white py-2 px-4 rounded-md hover:bg-blue-600 transition duration-300"
           >
             My Profile
@@ -86,6 +94,7 @@ const LandlordDashboard = () => {
           {showProfileDropdown && (
             <div className="absolute left-0 mt-2 w-48 bg-white rounded-md shadow-lg z-10">
               <button className="block py-2 px-4 text-gray-800 hover:bg-gray-200 w-full text-left">My Profile</button>
+              <hr className="border-gray-200" />
               <button onClick={handleLogout} className="block py-2 px-4 text-gray-800 hover:bg-gray-200 w-full text-left">Log Out</button>
             </div>
           )}
@@ -94,5 +103,5 @@ const LandlordDashboard = () => {
     </div>
   );
 };
-      
+
 export default LandlordDashboard;
