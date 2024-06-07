@@ -12,6 +12,7 @@ export const UserProvider = ({ children }) => {
   useEffect(() => {
     const storedUsers = JSON.parse(localStorage.getItem('users')) || [];
     setUsers(storedUsers);
+    console.log('Stored users:', storedUsers); // Debugging line
 
     const storedUser = JSON.parse(localStorage.getItem('currentUser'));
     const lastActiveTime = localStorage.getItem('lastActiveTime');
@@ -81,7 +82,7 @@ export const UserProvider = ({ children }) => {
   };
 
   return (
-    <UserContext.Provider value={{ currentUser, setCurrentUser, deleteUser, loginUser, registerUser, updateUser, logoutUser }}>
+    <UserContext.Provider value={{ currentUser, users, deleteUser, loginUser, registerUser, updateUser, logoutUser }}>
       {children}
     </UserContext.Provider>
   );
