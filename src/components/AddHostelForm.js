@@ -1,26 +1,23 @@
 import React, { useState } from 'react';
-import Modal from './modal.js'; // Import the modal component
-import { useHostels } from './HostelContext'; // Import the useHostels hook
+import Modal from './modal.js';
+import { useHostels } from './HostelContext';
 
 const AddHostelForm = () => {
-  // State variables to store form data
   const [name, setName] = useState('');
   const [roomType, setRoomType] = useState('');
   const [amountofrooms, setAmountOfRooms] = useState('');
   const [amount, setAmount] = useState('');
   const [distance, setDistance] = useState('');
   const [images, setImages] = useState([]);
-
-  // State for modal
+  const [loading, setLoading] = useState(false);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [hostelDetails, setHostelDetails] = useState({});
 
-  // Importing the hostels context and methods
   const { addHostel } = useHostels();
 
-  // Function to handle form submission
   const handleSubmit = (e) => {
     e.preventDefault();
+    setLoading(true);
 
     const newHostelDetails = {
       name,
@@ -31,25 +28,23 @@ const AddHostelForm = () => {
       images,
     };
 
-    // Store the new hostel in the context
     addHostel(newHostelDetails);
-
-    // Save the details for the modal and open the modal
     setHostelDetails(newHostelDetails);
     setIsModalOpen(true);
 
-    // Clear form fields after submission
     setName('');
     setRoomType('');
     setAmountOfRooms('');
     setAmount('');
     setDistance('');
     setImages([]);
+    setLoading(false);
   };
 
   const handleImageChange = (e) => {
     const files = Array.from(e.target.files);
-    setImages(files);
+    const images = files.filter((file) => file.type.startsWith('image/'));
+    setImages(images);
   };
 
   return (
