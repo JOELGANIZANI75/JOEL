@@ -56,7 +56,11 @@ const Navbar = () => {
   if (isLandlordDashboard) {
     return null; // Return null to hide the navbar on the landlord dashboard
   }
- 
+  const isAdminDashboard = location.pathname === '/Admin';
+
+  if (isAdminDashboard) {
+    return null; // Return null to hide the navbar on the landlord dashboard
+  }
   return (
     <nav className='bg-gradient-to-r from-gray-900 to-gray-800 h-15 flex flex-row justify-center items-center text-lg sticky top-0 z-50'>
       <div className='flex justify-between items-center h-20 max-w-screen-xl mx-auto w-full px-0'>
