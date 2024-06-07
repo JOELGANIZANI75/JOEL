@@ -14,7 +14,7 @@ import Help from './components/Help';
 import NotificationPage from './components/Notification';
 import ProfilePage from './components/Profile';
 import Mybookings from './components/Mybookings';
-//import AdminDashboard from './components/AdminDashboard';
+import AdminDashboard from './components/Admin';
 import LandlordDashboard from './components/LandlordDashboard';
 
 function App() {
@@ -36,7 +36,7 @@ function App() {
           <Route path="/Profile" element={<ProfilePage />} />
           <Route path="/contacts" element={<Contacts />} />
           <Route path="/LandlordDashboard" element={<LandlordDashboard />} />
-          {/*<Route path="/AdminDashboard" element={<AdminDashboard />} />*/}
+        <Route path="/Admin" element={<AdminDashboard />} />
         </Routes>
       </Router>
     </>
