@@ -1,9 +1,8 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { useNavigate, Navigate, useLocation } from 'react-router-dom';
 import { useUser } from './user';
-import Navbar from './NavBar';
 
-const ProfilePage = () => {
+const AdminProfilePage = () => {
   const { currentUser, setCurrentUser, deleteUser, updateUser } = useUser();
   const [editMode, setEditMode] = useState(false);
   const [userDetails, setUserDetails] = useState(currentUser);
@@ -66,9 +65,7 @@ const ProfilePage = () => {
   }
 
   return (
-    <div>
-      <Navbar/>
-    <div className="flex flex-col items-center mt-10">
+    <div className="flex flex-col bg-grey-500 items-center mt-10">
       <div
         onClick={handleProfileImageClick}
         className="cursor-pointer flex items-center justify-center rounded-full w-60 h-60 bg-gray-200"
@@ -165,8 +162,7 @@ const ProfilePage = () => {
         </button>
       </div>
     </div>
-    </div>
   );
 };
 
-export default ProfilePage;
+export default AdminProfilePage;

@@ -1,3 +1,5 @@
+
+// HostelContext.js
 import React, { createContext, useState, useContext, useEffect } from 'react';
 
 // Create the context
@@ -13,7 +15,6 @@ export const HostelProvider = ({ children }) => {
       setLoading(true);
       const savedHostels = localStorage.getItem('hostels');
       const hostelsData = savedHostels ? JSON.parse(savedHostels) : [];
-      // Fetch data from API or database here if needed
       setHostels(hostelsData);
       setLoading(false);
     };
@@ -25,7 +26,7 @@ export const HostelProvider = ({ children }) => {
   }, [hostels]);
 
   const addHostel = (hostel) => {
-    const existingHostel = hostels.find(h => h.name === hostel.name);
+    const existingHostel = hostels.find((h) => h.name === hostel.name);
     if (!existingHostel) {
       setHostels([...hostels, hostel]);
     }

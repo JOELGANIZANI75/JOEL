@@ -3,6 +3,7 @@ import { useNotifications } from './Alert';
 import { useUser } from './user';
 import { Navigate } from 'react-router-dom';
 import com from './com.png';
+import Navbar from './NavBar';
 
 const Notification = () => {
   const { notifications } = useNotifications();
@@ -14,6 +15,8 @@ const Notification = () => {
   }
 
   return (
+    <div>
+      <Navbar/>
     <div className="flex flex-col items-center justify-center bg-gray-100 max-h-screen p-8">
       <h1 className="text-2xl font-bold mb-4 text-center">Notifications</h1>
       {notifications.length > 0 ? (
@@ -29,6 +32,7 @@ const Notification = () => {
       ) : (
         <p className="text-gray-600">No notifications available.</p>
       )}
+    </div>
     </div>
   );
 };

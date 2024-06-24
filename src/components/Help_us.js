@@ -1,10 +1,10 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import Navbar from './NavBar';
-function Help() {
+import LandlordNavbar from './LandloadNavbar';
+function Help_us() {
   return (
 <div>
-  <Navbar/>
+  <LandlordNavbar/>
 
     <div className="flex flex-col items-center justify-center bg-gray-100 min-h-screen p-8">
       <div className="w-full max-w-3xl">
@@ -30,7 +30,7 @@ function Help() {
         <p className="text-gray-800 leading-relaxed">
           For more information, contact us:
           </p>
-          <Link to="/contacts">
+          <Link to="/ContactUs">
             <button className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-full ml-4">
               Contacts
             </button>
@@ -44,4 +44,4 @@ function Help() {
   );
 }
 
-export default Help;
+export default Help_us;

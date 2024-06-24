@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useUser } from './user';
+import Navbar from './NavBar';
 
 const MyBookings = () => {
   const { currentUser } = useUser();
@@ -20,6 +21,9 @@ const MyBookings = () => {
   const previousBookings = bookings.filter((booking) => isPastDate(booking.bookingTime));
 
   return (
+    <div>
+<Navbar/>
+    
     <div className="bg-gray-200 min-h-screen font-sans">
       <div className="container mx-auto px-4 py-8">
         <h2 className="text-2xl font-bold mb-8">My Booking History</h2>
@@ -68,6 +72,7 @@ const MyBookings = () => {
           </ul>
         </div>
       </div>
+    </div>
     </div>
   );
 };

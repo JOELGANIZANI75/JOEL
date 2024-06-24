@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { useNotifications } from './Alert';
 import { useUser } from './user';
+import Navbar from './NavBar';
 
 const BookingPage = () => {
   const location = useLocation();
@@ -77,6 +78,9 @@ const BookingPage = () => {
   };
 
   return (
+    <div>
+      <Navbar/>
+   
     <div className="container mx-auto py-8">
       <h1 className="text-2xl font-bold mb-4">Booking for {hostel.name}</h1>
       <form onSubmit={handleSubmit} className="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4">
@@ -136,6 +140,7 @@ const BookingPage = () => {
           Confirm Booking
         </button>
       </form>
+    </div>
     </div>
   );
 };

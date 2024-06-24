@@ -1,11 +1,12 @@
 import React from 'react';
 //import './About.css'; // Import custom CSS for font
-import Navbar from './NavBar';
+import LandlordNavbar from './LandloadNavbar';
 
-function Contacts() {
+function ContactUs() {
   return (
     <div>
-      <Navbar/>
+      <LandlordNavbar/>
+      
     <div className="flex flex-col items-center justify-center bg-gray-100 min-h-screen p-8">
       <div className="w-full max-w-3xl">
         <h1 className="text-4xl font-bold mb-6 text-center">Contact us</h1>
@@ -51,4 +52,4 @@ function Contacts() {
   );
 }
 
-export default Contacts;
+export default ContactUs;

@@ -1,10 +1,11 @@
 import React from 'react';
-import Navbar from './NavBar';
+import LandlordNavbar from './LandloadNavbar';
+function PrivacyPolicy() {
 
-function Privacy() {
   return (
     <div>
-      <Navbar/>
+        <LandlordNavbar/>
+        
     <div className="flex flex-col items-center justify-center bg-gray-100 min-h-screen p-8">
       <h1 className="text-4xl font-semibold text-center mb-6">PRIVACY & POLICY</h1>
       <div className="max-w-prose">
@@ -24,4 +25,4 @@ function Privacy() {
   );
 }
 
-export default Privacy;
+export default PrivacyPolicy;

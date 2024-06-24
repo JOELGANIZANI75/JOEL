@@ -4,6 +4,7 @@ import { useUser } from './user';
 
 const Hostel = ({ hostel }) => {
   const [showDetails, setShowDetails] = useState(false);
+  
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
   const { currentUser, isLoading } = useUser();
@@ -38,7 +39,7 @@ const Hostel = ({ hostel }) => {
       ) : (
         <>
           <img
-            src={hostel.images[0] || '/fallback-image.jpg'}
+            src={(hostel.images && hostel.images.length > 0) ? hostel.images[0] : '/fallback-image.jpg'}
             alt={hostel.name}
             className="w-full h-40 object-cover"
           />
@@ -46,7 +47,13 @@ const Hostel = ({ hostel }) => {
             <h2 className="text-xl font-semibold">{hostel.name}</h2>
             {showDetails && (
               <div className="mt-2">
-                {/* Hostel details */}
+             <p>Rent: {hostel.rent}</p>
+             <p>Room Type: {hostel.roomType}</p>
+            <p>Distance: {hostel.distance} km</p>
+            <p>Rooms Available: {hostel.roomsAvailable}</p>
+            <p>Gender: {hostel.gender}</p>
+            
+            {/* Add more details as needed */}
               </div>
             )}
             <button onClick={toggleDetails} className="bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded-lg mt-2 mr-2">

@@ -15,7 +15,7 @@ const HostelList = ({ onViewDetails }) => {
   return (
     <div className="hostel-list grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 mt-4">
       {hostels.map((hostel) => (
-        <Hostel key={hostel.id} hostel={hostel} onViewDetails={onViewDetails} />
+        <hostel key={hostel.id} hostel={hostel} onViewDetails={onViewDetails} />
       ))}
     </div>
   );

@@ -13,8 +13,8 @@ const FilterDropdown = ({ onFilterChange }) => {
           <option value="cheapest">Rent</option>
           <option value="mostRated">Most Rated</option>
           <option value="mostBooked">Most Booked</option>
-          <option value="male">Male</option>
-          <option value="female">Female</option>
+          <option value="male">boys</option>
+          <option value="female">girls</option>
         </select>
       </div>
     </div>

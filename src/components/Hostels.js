@@ -1,16 +1,19 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import Hostel from './Hostel';
 import SortDropdown from './SortDropdown';
 import FilterDropdown from './FilterDropdown';
 import { useUser } from './user'; // Import useUser hook
-import { HostelContext } from './hostelContext'; // Import HostelContext
-//import Navbar from  "/.NavBar";
+import { useHostels } from './HostelContext'; // Import HostelContext
+import Navbar from './NavBar';
+
 const Hostels = () => {
   const [sortCriteria, setSortCriteria] = useState('name');
   const [filterCriteria, setFilterCriteria] = useState('');
   const [selectedHostel, setSelectedHostel] = useState(null); // State to track selected hostel
   const { currentUser } = useUser(); // Get current user
   const isAdmin = currentUser?.accountType === 'Admin'; // Check if user is admin
+  const { hostels: contextHostels } = useHostels(); // Access hostels from context
+  const [filteredHostels, setFilteredHostels] = useState([]);
 
   const handleSortChange = (criteria) => {
     setSortCriteria(criteria);
@@ -20,145 +23,29 @@ const Hostels = () => {
     setFilterCriteria(criteria);
   };
 
-  // Dummy hostels data
-  const initialHostels = [
-    {
-      name: 'Matiya',
-      rent: 60000,
-      dateUploaded: '2024-05-15',
-      distance: 2,
-      roomsAvailable: 13,
-      gender: 'male',
-      image: '/images/room.webp',
-      landlord: 'Mr. John Musa, 0994567890'
-    },
-    {
-      name: 'Boss man',
-      rent: 15000,
-      dateUploaded: '2024-07-1',
-      distance: 3,
-      roomsAvailable: 2,
-      gender: 'male',
-      image: '/images/images (1).jpeg',
-      landlord: 'Mr. Peter Smith, +0987654321'
-    },
-    {
-      name: 'Ngwiya hostels',
-      rent: 20000,
-      dateUploaded: '2024-01-21',
-      distance: 3,
-      roomsAvailable: 20,
-      gender: 'female',
-      image: '/images/Hostel Life.jpeg',
-      landlord: 'Mrs. Jane Doe, +1122334455'
-    },
-    {
-      name: 'bente ',
-      rent: 15000,
-      dateUploaded: '2024-05-27',
-      distance: 3,
-      roomsAvailable: 89,
-      gender: 'female',
-      image: '/images/vi.jpeg',
-      landlord: 'Miss. Ainani  , +9988776655'
-    },
-    {
-      name: 'smiles garden',
-      rent: 70000,
-      dateUploaded: '2024-07-17',
-      distance: 3,
-      roomsAvailable: 20,
-      gender: 'female',
-      image: '/images/boys.jpeg',
-      landlord: 'Ms. Alice Mwale, +5566778899'
-    },
-    {
-      name: 'beit hostels',
-      rent: 20000,
-      dateUploaded: '2024-01-17',
-      distance: 3,
-      roomsAvailable: 20,
-      gender: 'male',
-      image: '/images/image-N.jpg',
-      landlord: 'Mr. Charlie Chitimbe, 0863445566'
-    },
-    {
-      name: 'Dyeratu hostels',
-      rent: 15000,
-      dateUploaded: '2024-05-17',
-      distance: 3,
-      roomsAvailable: 0,
-      gender: 'female',
-      image: '/images/image-g.jpeg',
-      landlord: 'Ms. Linda Black, 0997889900'
-    },
-    {
-      name: 'Chirwa hostels',
-      rent: 40000,
-      dateUploaded: '2024-05-17',
-      distance: 3,
-      roomsAvailable: 14,
-      gender: 'male',
-      image: '/images/hostel2.jpeg',
-      landlord: 'Mr. David White, 0994556677'
-    },
-    {
-      name: 'blue complex',
-      rent: 60000,
-      dateUploaded: '2024-04-29',
-      distance: 2,
-      roomsAvailable: 13,
-      gender: 'female',
-      image: '/images/Hostel for Girls.jpg',
-      landlord: 'Mrs. Emma Mbelwe, 0994556677'
-    },
-    {
-      name: 'Moyo hostels',
-      rent: 45000,
-      dateUploaded: '2024-04-29',
-      distance: 2,
-      roomsAvailable: 13,
-      gender: 'female',
-      image: '/images/hostel4.jpg',
-      landlord: 'Mr. Henry Chimwala, 0866778899'
-    }
-  ];
-
-  // Load hostels from context
-  const [hostels, setHostels] = useState(initialHostels);
-
-  // Context to manage hostels
-  const addHostel = (newHostel) => {
-    setHostels([...hostels, newHostel]);
-  };
-
   useEffect(() => {
-    // Filter hostels by the current user's landlord name
-    if (currentUser) {
-      const userHostels = initialHostels.filter(hostel => hostel.landlord.split(',')[0] === currentUser.name);
-      setHostels([...hostels, ...userHostels]);
-    }
-  }, [currentUser]);
+    // Sort hostels based on selected criteria
+    const sortedHostels = [...contextHostels].sort((a, b) => {
+      if (sortCriteria === 'name') {
+        return a.name.localeCompare(b.name);
+      } else if (sortCriteria === 'date') {
+        return new Date(b.dateUploaded) - new Date(a.dateUploaded);
+      } else if (sortCriteria === 'distance') {
+        return a.distance - b.distance;
+      }
+      return 0;
+    });
 
-  // Sort hostels based on selected criteria
-  hostels.sort((a, b) => {
-    if (sortCriteria === 'name') {
-      return a.name.localeCompare(b.name);
-    } else if (sortCriteria === 'date') {
-      return new Date(b.dateUploaded) - new Date(a.dateUploaded);
-    } else if (sortCriteria === 'distance') {
-      return a.distance - b.distance;
+    // Filter hostels based on selected criteria
+    let updatedHostels = [...sortedHostels];
+    if (filterCriteria === 'cheapest') {
+      updatedHostels.sort((a, b) => a.rent - b.rent);
+    } else if (filterCriteria === 'boys' || filterCriteria === 'girls') {
+      updatedHostels = sortedHostels.filter((hostel) => hostel.gender === filterCriteria);
     }
-    return 0;
-  });
 
-  // Filter hostels based on selected criteria
-  let filteredHostels = [...hostels];
-  if (filterCriteria === 'cheapest') {
-    filteredHostels.sort((a, b) => a.rent - b.rent);
-  } else if (filterCriteria === 'male' || filterCriteria === 'female') {
-    filteredHostels = hostels.filter((hostel) => hostel.gender === filterCriteria);
-  }
+    setFilteredHostels(updatedHostels);
+  }, [contextHostels, sortCriteria, filterCriteria]);
 
   // Function to handle click on hostel image to display detailed view
   const handleClickHostel = (hostel) => {
@@ -171,6 +58,8 @@ const Hostels = () => {
   };
 
   return (
+    <div>
+      <Navbar/>
     <div className="container mx-auto py-8">
       <div className="flex justify-between mb-4">
         <SortDropdown onSortChange={handleSortChange} />
@@ -182,7 +71,7 @@ const Hostels = () => {
             key={index}
             hostel={hostel}
             onClick={() => handleClickHostel(hostel)}
-            showBookingButton={!isAdmin} // Pass showBookingButton prop
+            showBookingButton={!isAdmin} // Pass showBookingButton prop for non-admin users
           />
         ))}
       </div>
@@ -204,17 +93,15 @@ const Hostels = () => {
             </button>
             <h2 className="text-xl font-bold mb-4">{selectedHostel.name}</h2>
             <img src={selectedHostel.image} alt={selectedHostel.name} className="w-full h-64 object-cover mb-4" />
-           
-
             <p>Rent: {selectedHostel.rent}</p>
             <p>Distance: {selectedHostel.distance} km</p>
             <p>Rooms Available: {selectedHostel.roomsAvailable}</p>
             <p>Gender: {selectedHostel.gender}</p>
             <p>Landlord: {selectedHostel.landlord}</p>
-            {/* Add more details here */}
           </div>
         </div>
       )}
+    </div>
     </div>
   );
 };

@@ -59,23 +59,23 @@ const LoginForm = () => {
   };
 
   const handleCreateAccount = () => {
-    const { firstName, lastName, username, dateOfBirth, email, password, confirmPassword, accountType, gender } = registerDetails;
-    if (!firstName || !lastName || !username || !dateOfBirth || !email || !password || !confirmPassword || !accountType || !gender) {
+    const { username, firstName, lastName, dateOfBirth, email, password, confirmPassword, accountType, gender } = registerDetails;
+   /* if (!username||!firstName || !lastName || !dateOfBirth || !email || !password || !confirmPassword || !accountType || !gender) {
       setMessage('Please fill in all fields');
       return;
-    }
-
+    }*/
+  
     if (password !== confirmPassword) {
       setMessage('Passwords do not match');
       return;
     }
-
+  
     if (password.length < 8) {
       setMessage('Password is too short. Please enter at least 8 characters.');
       return;
     }
 
-    const newUser = { firstName, lastName, username, dateOfBirth, email, password, accountType, gender };
+    const newUser = {  username, firstName, lastName, dateOfBirth, email, password, accountType, gender };
     registerUser(newUser);
     setMessage('Account created successfully');
     addNotification('Account Created', 'You have successfully created an account');
@@ -196,8 +196,8 @@ const LoginForm = () => {
               className="appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-t-md focus:outline-none focus:ring-blue-500 focus:border-blue-500 focus:z-10 sm:text-sm"
             />
             <input
-              type="dateofbirth"
-              name="dateOfBirth"
+              type="date of birth"
+              name="date of birth"
               placeholder="Date of Birth"
               onChange={handleInputChange(setRegisterDetails)}
               className="appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-t-md focus:outline-none focus:ring-blue-500 focus:border-blue-500 focus:z-10 sm:text-sm"

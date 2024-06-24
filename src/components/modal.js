@@ -4,17 +4,19 @@ import React from 'react';
 const Modal = ({ isOpen, onClose, hostelDetails }) => {
   if (!isOpen) return null;
 
-  const { name, roomType, amountofrooms, amount, distance, images } = hostelDetails;
+  const { name,gender, roomType, roomsAvailable, rent, distance, images } = hostelDetails;
 
   return (
     <div className="fixed inset-0 bg-gray-900 bg-opacity-50 flex items-center justify-center">
       <div className="bg-white p-6 rounded-lg shadow-lg max-w-md w-full">
         <h2 className="text-2xl font-semibold mb-4">Hostel Added Successfully!</h2>
         <p><strong>Hostel Name:</strong> {name}</p>
+        <p><strong>Gender:</strong> {gender}</p>
+
         <p><strong>Room Type:</strong> {roomType}</p>
-        <p><strong>Amount of Rooms:</strong> {amountofrooms}</p>
-        <p><strong>Amount (MWK):</strong> {amount}</p>
-        <p><strong>Directions to Campus:</strong> {distance}</p>
+        <p><strong>Rooms Available:</strong> {roomsAvailable}</p>
+        <p><strong>Rent (MWK):</strong> {rent}</p>
+        <p><strong>Distance from campus:</strong> {distance}</p>
         {images.length > 0 && (
           <div className="mt-4">
             <h3 className="text-lg font-medium mb-2">Image Preview</h3>
