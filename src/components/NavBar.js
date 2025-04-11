@@ -72,64 +72,69 @@ const Navbar = () => {
     return null; // Return null to hide the navbar on the landlord dashboard
   }
   return (
-   <nav className="bg-white shadow-md sticky top-0 z-50">
-  <div className="max-w-screen-xl mx-auto px-4 flex justify-between items-center h-20">
-    <Link to="/" className="text-blue-600 text-2xl font-bold">
-      OCA
+  <nav className="bg-white shadow-md fixed top-0 w-full z-50">
+  <div className="max-w-screen-xl mx-auto flex items-center justify-between h-20 px-6">
+    <Link to="/" className="text-2xl font-bold text-blue-700">
+      TheBox
     </Link>
 
-    {/* Mobile Menu Icon */}
     <div className="lg:hidden" onClick={handleClick}>
-      <i className={`${click ? 'fas fa-times' : 'fas fa-bars'} text-gray-800 text-2xl`} />
+      <i className={`${click ? 'fas fa-times' : 'fas fa-bars'} text-2xl text-gray-800`} />
     </div>
 
-    {/* Menu Items */}
-    <ul className={`lg:flex lg:space-x-6 items-center ${click ? 'block absolute top-20 left-0 w-full bg-white border-t border-gray-200 py-4' : 'hidden lg:flex'}`}>
-      <li><Link to="/" className="text-gray-800 hover:text-blue-600 px-4 py-2 block">Home</Link></li>
+    <ul className={`transition-all duration-300 lg:flex lg:items-center lg:space-x-8 ${click ? 'absolute top-20 left-0 w-full bg-white flex flex-col items-start px-6 py-4 space-y-4' : 'hidden lg:flex'}`}>
+      <li>
+        <Link to="/" className="text-gray-800 hover:text-blue-700 font-medium">Home</Link>
+      </li>
       <li className="relative" ref={dropdownRef}>
-        <button onClick={() => setIsOpen(!isOpen)} className="text-gray-800 hover:text-blue-600 px-4 py-2 block">
+        <button
+          onClick={() => setIsOpen(!isOpen)}
+          className="text-gray-800 hover:text-blue-700 font-medium"
+        >
           Accounts
         </button>
         {isOpen && (
-          <div className="absolute mt-2 w-48 bg-white shadow-lg border rounded z-50 right-0">
+          <div className="absolute bg-white shadow-lg rounded-md right-0 mt-2 py-2 w-48">
             {isLoggedIn ? (
               <>
-                <Link to="/Mybookings" className="block px-4 py-2 text-gray-800 hover:bg-gray-100">MyBookings</Link>
-                <Link to="/Profile" className="block px-4 py-2 text-gray-800 hover:bg-gray-100">My Profile</Link>
-                <button onClick={handleLogout} className="w-full text-left px-4 py-2 text-gray-800 hover:bg-gray-100">Log Out</button>
+                <Link to="/Mybookings" className="block px-4 py-2 text-gray-700 hover:bg-gray-100">My Bookings</Link>
+                <Link to="/Profile" className="block px-4 py-2 text-gray-700 hover:bg-gray-100">My Profile</Link>
+                <button onClick={handleLogout} className="w-full text-left px-4 py-2 text-gray-700 hover:bg-gray-100">Log Out</button>
               </>
             ) : (
-              <Link to="/login" className="block px-4 py-2 text-gray-800 hover:bg-gray-100">Login</Link>
+              <Link to="/login" className="block px-4 py-2 text-gray-700 hover:bg-gray-100">Login</Link>
             )}
           </div>
         )}
       </li>
-      <li><Link to="/hostels" className="text-gray-800 hover:text-blue-600 px-4 py-2 block">Hostels</Link></li>
+      <li>
+        <Link to="/hostels" className="text-gray-800 hover:text-blue-700 font-medium">Hostels</Link>
+      </li>
       {!isLoggedIn && (
-        <li><Link to="/login" className="text-gray-800 hover:text-blue-600 px-4 py-2 block">Login</Link></li>
+        <li>
+          <Link to="/login" className="text-gray-800 hover:text-blue-700 font-medium">Login</Link>
+        </li>
       )}
     </ul>
 
-    {/* Right side icons */}
-    <div className="hidden lg:flex items-center space-x-4">
-      <Link to="/Notification" className="relative">
-        <i className="fas fa-bell text-xl text-gray-700" />
+    <div className="hidden lg:flex items-center gap-4">
+      <Link to="/Notification" className="relative text-gray-800 hover:text-blue-700">
+        <i className="fas fa-bell text-xl" />
         {notifications.length > 0 && (
-          <span className="absolute -top-1 -right-2 bg-red-600 text-white text-xs px-1 rounded-full">
+          <span className="absolute top-0 right-0 bg-red-600 text-white rounded-full text-xs w-4 h-4 flex items-center justify-center">
             {notifications.length}
           </span>
         )}
       </Link>
-
-      <div className="flex items-center">
+      <div className="flex items-center border border-gray-300 rounded overflow-hidden">
         <input
           type="text"
-          placeholder="Search hostels"
           value={hostelName}
           onChange={(e) => setHostelName(e.target.value)}
-          className="border rounded-l px-3 py-2 w-40"
+          placeholder="Search hostels"
+          className="p-2 outline-none text-sm"
         />
-        <button onClick={handleSearch} className="bg-blue-600 text-white px-4 py-2 rounded-r hover:bg-blue-700 transition">
+        <button onClick={handleSearch} className="bg-blue-600 text-white px-4 hover:bg-blue-700">
           Search
         </button>
       </div>
