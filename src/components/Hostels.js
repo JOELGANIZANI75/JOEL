@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { useLocation } from 'react-router-dom';
 import Hostel from './Hostel';
 import SortDropdown from './SortDropdown';
 import FilterDropdown from './FilterDropdown';
@@ -14,14 +15,16 @@ const Hostels = () => {
   const isAdmin = currentUser?.accountType === 'Admin';
   const { hostels: contextHostels } = useHostels();
   const [filteredHostels, setFilteredHostels] = useState([]);
+  const location = useLocation();
 
-  const handleSortChange = (criteria) => {
-    setSortCriteria(criteria);
-  };
-
-  const handleFilterChange = (criteria) => {
-    setFilterCriteria(criteria);
-  };
+  // Get query params (like gender=boys)
+  useEffect(() => {
+    const params = new URLSearchParams(location.search);
+    const gender = params.get('gender');
+    if (gender === 'boys' || gender === 'girls') {
+      setFilterCriteria(gender);
+    }
+  }, [location.search]);
 
   useEffect(() => {
     let sortedHostels = [...contextHostels];
@@ -56,19 +59,28 @@ const Hostels = () => {
       <Navbar />
       <div className="container mx-auto py-8">
         <div className="flex justify-between mb-4">
-          <SortDropdown onSortChange={handleSortChange} />
-          <FilterDropdown onFilterChange={handleFilterChange} />
+          <SortDropdown onSortChange={setSortCriteria} />
+          <FilterDropdown onFilterChange={setFilterCriteria} />
         </div>
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 mt-4">
-          {filteredHostels.map((hostel, index) => (
-            <Hostel
-              key={index}
-              hostel={hostel}
-              onClick={() => handleClickHostel(hostel)}
-              showBookingButton={!isAdmin}
-            />
-          ))}
-        </div>
+
+        {filteredHostels.length === 0 ? (
+          <div className="text-center text-gray-600 mt-10 text-lg">
+            {filterCriteria === 'boys' || filterCriteria === 'girls'
+              ? `No ${filterCriteria} hostels available.`
+              : 'No hostels available.'}
+          </div>
+        ) : (
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 mt-4">
+            {filteredHostels.map((hostel, index) => (
+              <Hostel
+                key={index}
+                hostel={hostel}
+                onClick={() => handleClickHostel(hostel)}
+                showBookingButton={!isAdmin}
+              />
+            ))}
+          </div>
+        )}
 
         {selectedHostel && (
           <div className="fixed inset-0 flex justify-center items-center bg-black bg-opacity-50 z-50">
@@ -84,12 +96,7 @@ const Hostels = () => {
                   viewBox="0 0 24 24"
                   stroke="currentColor"
                 >
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    strokeWidth={2}
-                    d="M6 18L18 6M6 6l12 12"
-                  />
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
                 </svg>
               </button>
               <h2 className="text-xl font-bold mb-4">{selectedHostel.name}</h2>
