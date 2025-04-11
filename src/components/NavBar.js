@@ -45,10 +45,10 @@ const Navbar = () => {
   const [hostelName, setHostelName] = useState('');
 
   const handleSearch = () => {
-    navigate(/hostels?search=${hostelName});
-    setHostelName('');
-    closeMobileMenu();
-  };
+  navigate(`/hostels?search=${hostelName}`);
+  setHostelName('');
+  closeMobileMenu();
+};
 
   const isLoggedIn = !!currentUser;
   const isLandlordDashboard = location.pathname === '/LandlordDashboard';
