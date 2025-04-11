@@ -104,7 +104,33 @@ const Navbar = () => {
           </div>
         )}
       </li>
-      <li><Link to="/hostels" className="text-gray-800 hover:text-blue-600 px-4 py-2 block">Hostels</Link></li>
+      <li className="relative" ref={dropdownRef}>
+  <button onClick={() => setIsOpen(!isOpen)} className="text-gray-800 hover:text-blue-600 px-4 py-2 block">
+    Hostels
+  </button>
+  {isOpen && (
+    <div className="absolute mt-2 w-48 bg-white shadow-lg border rounded z-50 right-0">
+      <button
+        onClick={() => {
+          navigate('/hostels?gender=boys');
+          setIsOpen(false);
+        }}
+        className="block w-full text-left px-4 py-2 text-gray-800 hover:bg-gray-100"
+      >
+        Boys Hostels
+      </button>
+      <button
+        onClick={() => {
+          navigate('/hostels?gender=girls');
+          setIsOpen(false);
+        }}
+        className="block w-full text-left px-4 py-2 text-gray-800 hover:bg-gray-100"
+      >
+        Girls Hostels
+      </button>
+    </div>
+  )}
+</li>
       {!isLoggedIn && (
         <li><Link to="/login" className="text-gray-800 hover:text-blue-600 px-4 py-2 block">Login</Link></li>
       )}
