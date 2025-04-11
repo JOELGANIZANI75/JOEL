@@ -1,3 +1,8 @@
+import React, { useState, useEffect, useRef } from 'react';
+import { Link, useNavigate, useLocation } from 'react-router-dom';
+import { useUser } from './user';
+import { useNotifications } from './Alert'; // Import useNotifications hook
+
 const Navbar = () => {
   const { currentUser, logoutUser } = useUser();
   const { notifications } = useNotifications();
