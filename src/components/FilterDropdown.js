@@ -8,13 +8,17 @@ const FilterDropdown = ({ onFilterChange }) => {
   return (
     <div className="filter-dropdown relative">
       <div className="absolute right-0 mt-2 w-48 bg-white border border-gray-200 rounded-md shadow-lg">
-        <select onChange={handleChange} className="bg-gray-200 px-3 py-1 rounded-lg w-full">
-          <option>Filter by</option>
-          <option value="cheapest">Rent</option>
+        <select
+          onChange={handleChange}
+          className="bg-gray-200 px-3 py-1 rounded-lg w-full text-gray-800"
+          defaultValue=""
+        >
+          <option value="">Filter by</option>
+          <option value="cheapest">Cheapest</option>
           <option value="mostRated">Most Rated</option>
           <option value="mostBooked">Most Booked</option>
-          <option value="male">boys</option>
-          <option value="female">girls</option>
+          <option value="boys">Boys</option>
+          <option value="girls">Girls</option>
         </select>
       </div>
     </div>
